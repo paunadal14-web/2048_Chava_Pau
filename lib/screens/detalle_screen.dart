@@ -106,6 +106,11 @@ class _DetalleScreenState extends State<DetalleScreen> {
         valor: formatearFecha(p.fecha),
         icono: Icons.calendar_today_outlined,
       ),
+      StatCard(
+        titulo: 'Tablero',
+        valor: '${p.tamanoTablero}×${p.tamanoTablero}',
+        icono: Icons.border_all,
+      ),
     ];
 
     return LayoutBuilder(
