@@ -11,7 +11,7 @@ class DatabaseHelper {
   static const String nombreBD = 'game2048.db';
 
   // Versión actual del esquema
-  static const int version = 1;
+  static const int version = 2;
 
   // Nombres de las tablas
   static const String tablaUsuarios = 'usuarios';
@@ -33,6 +33,7 @@ class DatabaseHelper {
       version: version,
       onConfigure: _onConfigure,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -44,6 +45,14 @@ class DatabaseHelper {
   // Instalación nueva: crea v1 y aplica migraciones
   Future<void> _onCreate(Database db, int version) async {
     await _crearTablasV1(db);
+    await _onUpgrade(db, 1, version);
+  }
+
+  // Migraciones entre versiones
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await _actualizarAV2(db);
+    }
   }
 
   // Crea las tablas de la versión 1
@@ -95,6 +104,14 @@ class DatabaseHelper {
     batch.execute('CREATE INDEX idx_partidas_fecha ON $tablaPartidas (fecha DESC)');
 
     await batch.commit(noResult: true);
+  }
+
+  // v2: añade el tamaño del tablero
+  Future<void> _actualizarAV2(Database db) async {
+    await db.execute(
+      'ALTER TABLE $tablaPartidas '
+      'ADD COLUMN tamano_tablero INTEGER NOT NULL DEFAULT 4',
+    );
   }
 
   // Cierra la conexión
