@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'screens/juego_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/registro_screen.dart';
 
@@ -33,6 +34,10 @@ abstract final class AppRoutes {
           settings,
           const Scaffold(body: Center(child: Text('Inicio (pendiente)'))),
         );
+      // Recibe si hay que continuar la partida guardada
+      case juego:
+        final continuar = settings.arguments as bool? ?? false;
+        return _crearRuta(settings, JuegoScreen(continuar: continuar));
       default:
         return _rutaDesconocida(settings);
     }
