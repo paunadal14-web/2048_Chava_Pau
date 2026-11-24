@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+import 'screens/detalle_screen.dart';
+import 'screens/home_shell.dart';
+import 'screens/juego_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/registro_screen.dart';
+
+// Todas las rutas de la app en un solo sitio
+abstract final class AppRoutes {
+  // Nombres de las rutas
+  static const String login = '/login';
+  static const String registro = '/registro';
+
+  static const String home = '/';
+
+  static const String juego = '/juego';
+
+  static const String detalle = '/detalle';
+
+  // Ruta con la que arranca la app
+  static List<Route<dynamic>> rutasIniciales(String nombre) {
+    return [generar(RouteSettings(name: nombre))];
+  }
+
+  // Devuelve la pantalla según el nombre de la ruta
+  static Route<dynamic> generar(RouteSettings settings) {
+    switch (settings.name) {
+      case login:
+        return _crearRuta(settings, const LoginScreen());
+      case registro:
+        return _crearRuta(settings, const RegistroScreen());
+      case home:
+        return _crearRuta(settings, const HomeShell());
+      // Recibe si hay que continuar la partida guardada
+      case juego:
+        final continuar = settings.arguments as bool? ?? false;
+        return _crearRuta(settings, JuegoScreen(continuar: continuar));
+      // Recibe el id de la partida
+      case detalle:
+        final id = settings.arguments;
+        if (id is int) {
+          return _crearRuta(settings, DetalleScreen(partidaId: id));
+        }
+        return _rutaDesconocida(settings);
+      default:
+        return _rutaDesconocida(settings);
+    }
+  }
+
+  // Crea la ruta de Material
+  static MaterialPageRoute<T> _crearRuta<T>(RouteSettings settings, Widget pantalla) {
+    return MaterialPageRoute<T>(settings: settings, builder: (_) => pantalla);
+  }
+
+  // Pantalla de error si la ruta no existe
+  static Route<dynamic> _rutaDesconocida(RouteSettings settings) {
+    return _crearRuta(
+      settings,
+      Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: Center(child: Text('No existe la ruta: ${settings.name}')),
+      ),
+    );
+  }
+}
