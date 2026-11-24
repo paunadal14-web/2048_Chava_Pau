@@ -213,7 +213,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
           SizedBox(
             width: 140,
             child: DropdownButtonFormField<int?>(
-              value: _fichaMinima,
+              initialValue: _fichaMinima,
               isDense: true,
               decoration: const InputDecoration(
                 isDense: true,
