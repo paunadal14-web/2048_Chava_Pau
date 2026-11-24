@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'screens/login_screen.dart';
+import 'screens/registro_screen.dart';
+
 // Todas las rutas de la app en un solo sitio
 abstract final class AppRoutes {
   // Nombres de las rutas
@@ -20,6 +23,10 @@ abstract final class AppRoutes {
   // Devuelve la pantalla según el nombre de la ruta
   static Route<dynamic> generar(RouteSettings settings) {
     switch (settings.name) {
+      case login:
+        return _crearRuta(settings, const LoginScreen());
+      case registro:
+        return _crearRuta(settings, const RegistroScreen());
       case home:
         // Temporal hasta tener HomeShell
         return _crearRuta(
