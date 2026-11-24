@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'screens/detalle_screen.dart';
+import 'screens/home_shell.dart';
 import 'screens/juego_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/registro_screen.dart';
@@ -30,11 +31,7 @@ abstract final class AppRoutes {
       case registro:
         return _crearRuta(settings, const RegistroScreen());
       case home:
-        // Temporal hasta tener HomeShell
-        return _crearRuta(
-          settings,
-          const Scaffold(body: Center(child: Text('Inicio (pendiente)'))),
-        );
+        return _crearRuta(settings, const HomeShell());
       // Recibe si hay que continuar la partida guardada
       case juego:
         final continuar = settings.arguments as bool? ?? false;
