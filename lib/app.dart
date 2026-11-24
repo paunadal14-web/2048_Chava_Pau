@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'routes.dart';
 import 'services/preferencias_service.dart';
 import 'state/app_scope.dart';
 import 'state/tema_controller.dart';
@@ -26,7 +27,10 @@ class Juego2048App extends StatelessWidget {
           theme: AppTheme.claro(tema.paleta),
           darkTheme: AppTheme.oscuro(tema.paleta),
           themeMode: tema.modo,
-          home: const Scaffold(body: Center(child: Text('2048'))),
+          // Si hay sesión va a Home, si no al login
+          initialRoute: AppRoutes.home,
+          onGenerateRoute: AppRoutes.generar,
+          onGenerateInitialRoutes: AppRoutes.rutasIniciales,
         ),
       ),
     );
