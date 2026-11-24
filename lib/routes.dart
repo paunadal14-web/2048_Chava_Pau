@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'screens/detalle_screen.dart';
 import 'screens/juego_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/registro_screen.dart';
@@ -38,6 +39,13 @@ abstract final class AppRoutes {
       case juego:
         final continuar = settings.arguments as bool? ?? false;
         return _crearRuta(settings, JuegoScreen(continuar: continuar));
+      // Recibe el id de la partida
+      case detalle:
+        final id = settings.arguments;
+        if (id is int) {
+          return _crearRuta(settings, DetalleScreen(partidaId: id));
+        }
+        return _rutaDesconocida(settings);
       default:
         return _rutaDesconocida(settings);
     }
